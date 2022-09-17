@@ -1,6 +1,12 @@
 {
   "version": "0.2.0",
   "configurations": [
+  {
+    "name": "issue_example",
+    "type": "dart",
+    "request": "launch",
+    "program": "./issue_example/lib/main.dart"
+  },
     {
       "name": "example",
       "request": "launch",
