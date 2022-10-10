@@ -18,7 +18,7 @@ class Dataflow {
   final Set<Operator> _consumes = {};
 
   /// The operators has evaluated in this pulse.
-  final Set<Operator> _runed = {};
+  final Set<Operator> _didRun = {};
 
   /// The evaluation heap.
   final HeapPriorityQueue<Operator> _heap = HeapPriorityQueue(
@@ -114,7 +114,7 @@ class Dataflow {
 
       final updated = op.run();
 
-      _runed.add(op);
+      _didRun.add(op);
 
       if (updated) {
         for (var target in op.targets) {
@@ -127,8 +127,8 @@ class Dataflow {
       op.update(null);
     }
 
-    for (var op in _runed) {
-      op.runed = false;
+    for (var op in _didRun) {
+      op.didRun = false;
     }
 
     return this;

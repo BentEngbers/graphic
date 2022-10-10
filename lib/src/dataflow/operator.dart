@@ -76,7 +76,7 @@ abstract class Operator<V> {
   bool get consume => false;
 
   /// Whether this operator has evaluated in this pulse.
-  bool runed = false;
+  bool didRun = false;
 
   /// The channel binded to this operator.
   StreamController<V?>? channel;
@@ -91,7 +91,7 @@ abstract class Operator<V> {
 
   /// Runs this operator and returns whether the [value] is updated.
   bool run() {
-    if (runed) {
+    if (didRun) {
       return false;
     }
 
@@ -99,11 +99,11 @@ abstract class Operator<V> {
     final updated = update(evaluate());
     if (channel != null && updated) {
       // Only the updates caused by operator.run will emit to it's channel sink.
-      // For now, singal channels are noticed by the view, while the selection channel
-      // is noticed by it's binded operator.
+      // For now, signal channels are noticed by the view, while the selection channel
+      // is noticed by it's bound operator.
       channel!.sink.add(value);
     }
-    runed = true;
+    didRun = true;
     return updated;
   }
 
