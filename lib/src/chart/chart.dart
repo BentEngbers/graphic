@@ -32,7 +32,7 @@ import 'view.dart';
 ///
 /// The generic [D] is the type of datum in [data] list.
 ///
-/// The properties of this chart sepcification are final because it is also an immutable
+/// The properties of this chart specification are final because it is also an immutable
 /// [StatefulWidget], but other specifications can be modified.
 class Chart<D> extends StatefulWidget {
   /// Creates a chart widget.
@@ -129,7 +129,7 @@ class Chart<D> extends StatefulWidget {
 
   /// The interaction channel of gesture signals.
   ///
-  /// You can either get gesture signals by listening to it's stream, or mannually
+  /// You can either get gesture signals by listening to it's stream, or manually
   /// emit gesture signals into this chart by adding to it's sink.
   ///
   /// You can also share it with other charts for sharing gesture signals, in which
@@ -138,7 +138,7 @@ class Chart<D> extends StatefulWidget {
 
   /// The interaction channel of resize signals.
   ///
-  /// You can either get resize signals by listening to it's stream, or mannually
+  /// You can either get resize signals by listening to it's stream, or manually
   /// emit resize signals into this chart by adding to it's sink.
   ///
   /// You can also share it with other charts for sharing resize signals, in which
@@ -147,7 +147,7 @@ class Chart<D> extends StatefulWidget {
 
   /// The interaction channel of change data signals.
   ///
-  /// You can either get change data signals by listening to it's stream, or mannually
+  /// You can either get change data signals by listening to it's stream, or manually
   /// emit change data signals into this chart by adding to it's sink.
   ///
   /// You can also share it with other charts for sharing change data signals, in which
@@ -183,7 +183,7 @@ class Chart<D> extends StatefulWidget {
 ///
 /// [initState] --> [build] --> [_ChartLayoutDelegate.getPositionForChild] --> [_ChartPainter.paint]
 class _ChartState<D> extends State<Chart<D>> {
-  /// The view that controlls the data visualization.
+  /// The view that controls the data visualization.
   ///
   /// For a chart widget, to "rebuild" means to create a new [view].
   View<D>? view;
@@ -197,18 +197,18 @@ class _ChartState<D> extends State<Chart<D>> {
   /// The local position of the last [Gesture].
   ///
   /// It is record by chart state to for [Gesture]s when the [GestureDetector]
-  /// callback dosen't have a current position. It is updated when the callback
+  /// callback doesn't have a current position. It is updated when the callback
   /// has a current position.
   Offset gestureLocalPosition = Offset.zero;
 
   /// The device kind of the last [Gesture].
   ///
   /// It is record by chart state to for [Gesture]s when the [GestureDetector]
-  /// callback dosen't have a current device kind. It is updated when the callback
+  /// callback doesn't have a current device kind. It is updated when the callback
   /// has a current device kind.
   PointerDeviceKind gestureKind = PointerDeviceKind.unknown;
 
-  /// The start postion of a scale or long press gesture.
+  /// The start position of a scale or long press gesture.
   Offset? gestureLocalMoveStart;
 
   /// Details of previous scale update.
@@ -222,7 +222,7 @@ class _ChartState<D> extends State<Chart<D>> {
   @override
   void didUpdateWidget(covariant Chart<D> oldWidget) {
     super.didUpdateWidget(oldWidget);
-    // Checke whether to rebuild or tirgger changeData.
+    // Checks whether to rebuild or trigger changeData.
     if (widget.rebuild ?? !widget.equalSpecTo(oldWidget)) {
       //Dispose of old view, when the widget rebuilds
       view?.dispose();
@@ -722,7 +722,7 @@ class _ChartState<D> extends State<Chart<D>> {
   }
 }
 
-/// The delegate of [CustomSingleChildLayout] to get the chart widgit size.
+/// The delegate of [CustomSingleChildLayout] to get the chart widget size.
 class _ChartLayoutDelegate<D> extends SingleChildLayoutDelegate {
   _ChartLayoutDelegate(this.state);
 
@@ -735,7 +735,7 @@ class _ChartLayoutDelegate<D> extends SingleChildLayoutDelegate {
   @override
   Offset getPositionForChild(Size size, Size childSize) {
     if (state.view == null) {
-      // When rebuild is required, the state.view is set null. To rebuild meanse
+      // When rebuild is required, the state.view is set null. To rebuild means
       // to create a new view. A view is and only is created in _ChartLayoutDelegate.getPositionForChild
       // because it needs the current size.
 
@@ -745,7 +745,7 @@ class _ChartLayoutDelegate<D> extends SingleChildLayoutDelegate {
         state.repaint,
       );
     } else if (size != state.size) {
-      // Only emmit resize when size is realy changed.
+      // Only emit resize when size is really changed.
 
       state.view!.resize(size);
     }
