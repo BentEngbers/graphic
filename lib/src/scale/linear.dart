@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:graphic/src/dataflow/tuple.dart';
+import 'package:graphic/src/interaction/range.dart';
 import 'package:graphic/src/scale/util/nice_numbers.dart';
 import 'package:graphic/src/scale/util/nice_range.dart';
 
@@ -20,6 +21,7 @@ class LinearScale extends ContinuousScale<num> {
     String? Function(num)? formatter,
     List<num>? ticks,
     int? tickCount,
+    RangeUpdater<int>? tickCountUpdater,
     bool? niceRange,
   }) : super(
           min: min,
@@ -30,6 +32,7 @@ class LinearScale extends ContinuousScale<num> {
           formatter: formatter,
           ticks: ticks,
           tickCount: tickCount,
+          tickCountUpdater: tickCountUpdater,
           niceRange: niceRange,
         );
 

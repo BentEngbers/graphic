@@ -96,15 +96,15 @@ abstract class Operator<V> {
     }
 
     _marshall();
-    final updated = update(evaluate());
-    if (channel != null && updated) {
+    final didUpdate = update(evaluate());
+    if (channel != null && didUpdate) {
       // Only the updates caused by operator.run will emit to it's channel sink.
       // For now, signal channels are noticed by the view, while the selection channel
       // is noticed by it's bound operator.
       channel!.sink.add(value);
     }
     didRun = true;
-    return updated;
+    return didUpdate;
   }
 
   /// Evaluates the new [value].
@@ -127,6 +127,7 @@ abstract class Operator<V> {
     if (value is V && equalValue(value as V, newValue)) {
       return false;
     }
+    // print('old value: $value, new value: $newValue');
     value = newValue;
     return true;
   }

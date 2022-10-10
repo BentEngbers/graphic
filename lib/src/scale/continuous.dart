@@ -1,3 +1,4 @@
+import 'package:graphic/src/interaction/range.dart';
 import 'package:graphic/src/util/assert.dart';
 
 import 'scale.dart';
@@ -17,6 +18,7 @@ abstract class ContinuousScale<V> extends Scale<V, double> {
     String? Function(V)? formatter,
     List<V>? ticks,
     int? tickCount,
+    RangeUpdater<int>? tickCountUpdater,
   })  : assert(isSingle([min, marginMin], allowNone: true)),
         assert(isSingle([max, marginMax], allowNone: true)),
         super(
@@ -24,6 +26,7 @@ abstract class ContinuousScale<V> extends Scale<V, double> {
           formatter: formatter,
           ticks: ticks,
           tickCount: tickCount,
+          tickCountUpdater: tickCountUpdater,
         );
 
   /// Indicates the minimum input boundary directly.

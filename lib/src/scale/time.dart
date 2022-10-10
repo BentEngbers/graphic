@@ -1,4 +1,5 @@
 import 'package:graphic/src/dataflow/tuple.dart';
+import 'package:graphic/src/interaction/range.dart';
 
 import 'continuous.dart';
 
@@ -17,6 +18,7 @@ class TimeScale extends ContinuousScale<DateTime> {
     String? Function(DateTime)? formatter,
     List<DateTime>? ticks,
     int? tickCount,
+    RangeUpdater<int>? tickCountUpdater,
   }) : super(
           min: min,
           max: max,
@@ -26,6 +28,7 @@ class TimeScale extends ContinuousScale<DateTime> {
           formatter: formatter,
           ticks: ticks,
           tickCount: tickCount,
+          tickCountUpdater: tickCountUpdater,
         );
 
   @override
@@ -58,8 +61,9 @@ class TimeScaleConv extends ContinuousScaleConv<DateTime> {
       }
 
       // If all data are the same, the range is 1 second.
-      final range =
-          maxTmp == minTmp ? const Duration(seconds: 1) : maxTmp.difference(minTmp);
+      final range = maxTmp == minTmp
+          ? const Duration(seconds: 1)
+          : maxTmp.difference(minTmp);
       final marginMin = range * (spec.marginMin ?? 0.1);
       final marginMax = range * (spec.marginMax ?? 0.1);
       min = min ?? minTmp.subtract(marginMin);

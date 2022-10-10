@@ -37,6 +37,7 @@ import 'package:graphic/src/guide/axis/axis.dart';
 import 'package:graphic/src/guide/interaction/crosshair.dart';
 import 'package:graphic/src/guide/interaction/tooltip.dart';
 import 'package:graphic/src/interaction/gesture.dart';
+import 'package:graphic/src/interaction/range.dart';
 import 'package:graphic/src/interaction/selection/interval.dart';
 import 'package:graphic/src/interaction/selection/point.dart';
 import 'package:graphic/src/interaction/selection/selection.dart';
@@ -54,7 +55,8 @@ import 'package:graphic/src/variable/transform/sort.dart';
 import 'package:graphic/src/variable/variable.dart';
 
 /// The default padding function for rectangle coordinate.
-EdgeInsets _defaultRectPadding(Size _) => const EdgeInsets.fromLTRB(40, 5, 10, 20);
+EdgeInsets _defaultRectPadding(Size _) =>
+    const EdgeInsets.fromLTRB(40, 5, 10, 20);
 
 /// The default padding function for polar coordinate.
 EdgeInsets _defaultPolarPadding(Size _) => const EdgeInsets.all(10);
@@ -138,8 +140,9 @@ void parse<D>(
   }
 
   late CoordConvOp coord;
+  late Operator<List<double>> horizontalRange;
   if (coordSpec is RectCoord) {
-    Operator<List<double>> horizontalRange = view.add(Value<List<double>>(
+    horizontalRange = view.add(Value<List<double>>(
       coordSpec.horizontalRange ?? [0, 1],
     ));
     if (coordSpec.horizontalRangeUpdater != null) {
@@ -212,10 +215,26 @@ void parse<D>(
   final accessors = <String, Accessor<D, dynamic>>{};
   final variableSpecs = spec.variables;
   final scaleSpecs = <String, Scale>{};
+  late Operator<int> tickCountSpec;
   for (var field in variableSpecs.keys) {
     final accessor = variableSpecs[field]!.accessor;
     final scaleSpec = variableSpecs[field]!.scale;
     accessors[field] = accessor;
+
+    if (scaleSpec != null) {
+      Operator<int> tickCount = view.add(Value<int>(scaleSpec.tickCount ?? 5));
+      // final foo = tickCountSpecs[field];
+      if (scaleSpec.tickCountUpdater != null) {
+        tickCount = view.add(RangeUpdateOp({
+          'update': scaleSpec.tickCountUpdater,
+          'initialValue': tickCount,
+          'range': horizontalRange,
+        }));
+      }
+
+      tickCountSpec = tickCount;
+    }
+
     if (accessor is Accessor<D, String>) {
       scaleSpecs[field] = scaleSpec ?? OrdinalScale();
     } else if (accessor is Accessor<D, num>) {
@@ -223,7 +242,7 @@ void parse<D>(
     } else if (accessor is Accessor<D, DateTime>) {
       scaleSpecs[field] = scaleSpec ?? TimeScale();
     } else {
-      throw ArgumentError('Variable value must be String, num, or DataTime');
+      throw ArgumentError('Variable value must be String, num, or DateTime');
     }
   }
 
@@ -280,6 +299,7 @@ void parse<D>(
   final scales = view.add(ScaleConvOp({
     'tuples': tuples,
     'specs': scaleSpecs,
+    'tickCount': tickCountSpec,
   }));
 
   final scaleds = view.add(ScaleOp({

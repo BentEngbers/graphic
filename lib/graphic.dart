@@ -190,6 +190,7 @@ export 'src/guide/annotation/mark.dart' show MarkAnnotation;
 export 'src/guide/annotation/tag.dart' show TagAnnotation;
 export 'src/guide/annotation/custom.dart' show CustomAnnotation;
 
+export 'src/interaction/range.dart' show RangeUpdater;
 export 'src/interaction/signal.dart' show Signal, SignalType, SignalUpdater;
 export 'src/interaction/gesture.dart' show GestureType, Gesture, GestureSignal;
 export 'src/interaction/selection/selection.dart'
