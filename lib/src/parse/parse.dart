@@ -346,7 +346,7 @@ void parse<D>(
 
   for (var elementSpec in spec.elements) {
     var form = elementSpec.position?.form;
-    // Default algebracal form.
+    // Default algebraical form.
     if (form == null) {
       final variables = scaleSpecs.keys.toList();
       form = (Varset(variables[0]) * Varset(variables[1])).form;

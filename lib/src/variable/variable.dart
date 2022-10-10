@@ -15,7 +15,7 @@ typedef Accessor<D, V> = V Function(D);
 
 /// The specification of a variable.
 ///
-/// Instead of raw [Chart.data], the chart reorgnize datum to "original value tuple"
+/// Instead of raw [Chart.data], the chart reorganize datum to "original value tuple"
 /// (See details in [Tuple]) for internal usage. The variable defines how to create
 /// a field in original value tuple form input datum, and the scale specification
 /// of the field.

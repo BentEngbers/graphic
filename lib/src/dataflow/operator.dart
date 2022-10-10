@@ -21,7 +21,7 @@ abstract class Operator<V> {
       for (var name in params.keys) {
         final source = params[name];
         if (source is Operator) {
-          // An inderect operator parameter will be registered in sources and have
+          // An indirect operator parameter will be registered in sources and have
           // this operator added as a target.
 
           source.targets.add(this);
@@ -49,18 +49,18 @@ abstract class Operator<V> {
   /// operators should run in initialization.
   bool get runInit => true;
 
-  /// Parameter values set directly or pulled inderectly.
+  /// Parameter values set directly or pulled indirectly.
   @protected
   final params = <String, dynamic>{};
 
-  /// Souce operators that the inderect parameters depend on.
+  /// Source operators that the indirect parameters depend on.
   ///
   /// When a source operator is modified, this operator will reevaluate.
   final Map<String, Operator> sources = {};
 
   /// Target operators that accept this operator's [value] as a parameter.
   ///
-  /// When this operator is modifiend, target operators will reevaluate.
+  /// When this operator is modified, target operators will reevaluate.
   final Set<Operator> targets = {};
 
   /// The rank of this operator in the [Dataflow]'s evaluation heap.
@@ -70,7 +70,7 @@ abstract class Operator<V> {
 
   /// Whether the [value] should be consumed after this pulse.
   ///
-  /// It is usefull for transient values like [Signal]s. Only a very first operator
+  /// It is useful for transient values like [Signal]s. Only a very first operator
   /// need to set this property. It's targets will always be touched when it is
   /// set null and it is always a start.
   bool get consume => false;
@@ -78,7 +78,7 @@ abstract class Operator<V> {
   /// Whether this operator has evaluated in this pulse.
   bool didRun = false;
 
-  /// The channel binded to this operator.
+  /// The channel bound to this operator.
   StreamController<V?>? channel;
 
   /// Pulls parameter values from source operators.
@@ -113,9 +113,9 @@ abstract class Operator<V> {
   @protected
   V evaluate();
 
-  /// Checks whether the new [value]s is modifed to the old one.
+  /// Checks whether the new [value]s is modified to the old one.
   ///
-  /// This method should be determind by the trait of [V], not the role of this operator.
+  /// This method should be determined by the trait of [V], not the role of this operator.
   @protected
   bool equalValue(V a, V b) => a == b;
 

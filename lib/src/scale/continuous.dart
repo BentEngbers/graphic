@@ -31,7 +31,7 @@ abstract class ContinuousScale<V> extends Scale<V, double> {
   /// If null, it will be calculated by minimum input value and [marginMin].
   V? min;
 
-  /// Indecates the maximum input boundary directly.
+  /// Indicates the maximum input boundary directly.
   ///
   /// If null, it will be calculated by maximum input value and [marginMax].
   V? max;
@@ -39,7 +39,7 @@ abstract class ContinuousScale<V> extends Scale<V, double> {
   /// The margin ratio from minimum input value to calculated [min].
   double? marginMin;
 
-  /// The margin ratio from maxinum input value to calculated [max].
+  /// The margin ratio from maximum input value to calculated [max].
   double? marginMax;
 
   /// Whether to extend the [min] and [max] to get nice round values.

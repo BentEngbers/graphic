@@ -73,20 +73,20 @@ abstract class Scale<V, SV extends num> {
 
 /// The scale converter.
 ///
-/// It also acts like avatar of a variable, carring the meta information like [title],
+/// It also acts like avatar of a variable, carrying the meta information like [title],
 /// [formatter], and [ticks] of the scale.
 ///
-/// Because the default values are relatied to tuple values, it is initialized in
+/// Because the default values are related to tuple values, it is initialized in
 /// the constructor body.
 abstract class ScaleConv<V, SV extends num> extends Converter<V, SV> {
   /// the scale title.
   ///
-  /// Two scale converters equlity check does not involve titles.
+  /// Two scale converters equality check does not involve titles.
   late String title;
 
   /// The scale formatter
   ///
-  /// This should not be directly used. Use method [format] insead to avoid generic
+  /// This should not be directly used. Use method [format] instead to avoid generic
   /// problems.
   late String? Function(V) formatter;
 
@@ -95,19 +95,19 @@ abstract class ScaleConv<V, SV extends num> extends Converter<V, SV> {
 
   /// Normalizes a scaled value to [0, 1].
   ///
-  /// It is usefull for [DiscreteScale], which scale value to natural number while
+  /// It is useful for [DiscreteScale], which scale value to natural number while
   /// position requires a normalized value.
   double normalize(SV scaledValue);
 
   /// De-normalizes a [0, 1] value to scaled value.
   ///
-  /// It is usefull for [DiscreteScale], which scale value to natural number while
+  /// It is useful for [DiscreteScale], which scale value to natural number while
   /// position requires a normalized value.
   SV denormalize(double normalValue);
 
   /// Normalized value of zero.
   ///
-  /// It is usefull to compose the position of coordinate origin point or geom completing
+  /// It is useful to compose the position of coordinate origin point or geom completing
   /// points.
   double get normalZero => normalize(convert(zero));
 
@@ -157,7 +157,7 @@ class ScaleConvOp extends Operator<Map<String, ScaleConv>> {
   }
 }
 
-/// The operator to convert original value tuples to scaled valaue tuples by scales.
+/// The operator to convert original value tuples to scaled value tuples by scales.
 class ScaleOp extends Operator<List<Scaled>> {
   ScaleOp(Map<String, dynamic> params) : super(params);
 

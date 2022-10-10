@@ -23,7 +23,7 @@ class CustomAnnotation extends FigureAnnotation {
           layer: layer,
         );
 
-  /// Indicates the custom render funcion of this annotation.
+  /// Indicates the custom render function of this annotation.
   List<Figure> Function(Offset, Size) renderer;
 
   @override
