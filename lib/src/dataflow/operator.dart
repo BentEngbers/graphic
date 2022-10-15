@@ -127,7 +127,7 @@ abstract class Operator<V> {
     if (value is V && equalValue(value as V, newValue)) {
       return false;
     }
-    // print('old value: $value, new value: $newValue');
+
     value = newValue;
     return true;
   }

@@ -140,25 +140,26 @@ void parse<D>(
   }
 
   late CoordConvOp coord;
-  late Operator<List<double>> horizontalRange;
+  late Operator<List<double>> renderRangeX;
+  late Operator<List<double>> renderRangeY;
   if (coordSpec is RectCoord) {
-    horizontalRange = view.add(Value<List<double>>(
+    renderRangeX = view.add(Value<List<double>>(
       coordSpec.horizontalRange ?? [0, 1],
     ));
     if (coordSpec.horizontalRangeUpdater != null) {
-      horizontalRange = view.add(SignalUpdateOp({
+      renderRangeX = view.add(SignalUpdateOp({
         'update': coordSpec.horizontalRangeUpdater,
-        'initialValue': horizontalRange,
+        'initialValue': renderRangeX,
         'signal': signal,
       }));
     }
-    Operator<List<double>> verticalRange = view.add(Value<List<double>>(
+    renderRangeY = view.add(Value<List<double>>(
       coordSpec.verticalRange ?? [0, 1],
     ));
     if (coordSpec.verticalRangeUpdater != null) {
-      verticalRange = view.add(SignalUpdateOp({
+      renderRangeY = view.add(SignalUpdateOp({
         'update': coordSpec.verticalRangeUpdater,
-        'initialValue': verticalRange,
+        'initialValue': renderRangeY,
         'signal': signal,
       }));
     }
@@ -168,28 +169,28 @@ void parse<D>(
       'dimCount': coordSpec.dimCount ?? 2,
       'dimFill': coordSpec.dimFill ?? 0.5,
       'transposed': coordSpec.transposed ?? false,
-      'renderRangeX': horizontalRange,
-      'renderRangeY': verticalRange,
+      'renderRangeX': renderRangeX,
+      'renderRangeY': renderRangeY,
     }));
   } else {
     coordSpec as PolarCoord;
-    Operator<List<double>> angleRange = view.add(Value<List<double>>(
+    renderRangeX = view.add(Value<List<double>>(
       coordSpec.angleRange ?? [0, 1],
     ));
     if (coordSpec.angleRangeUpdater != null) {
-      angleRange = view.add(SignalUpdateOp({
+      renderRangeX = view.add(SignalUpdateOp({
         'update': coordSpec.angleRangeUpdater,
-        'initialValue': angleRange,
+        'initialValue': renderRangeX,
         'signal': signal,
       }));
     }
-    Operator<List<double>> radiusRange = view.add(Value<List<double>>(
+    renderRangeY = view.add(Value<List<double>>(
       coordSpec.radiusRange ?? [0, 1],
     ));
     if (coordSpec.radiusRangeUpdater != null) {
-      radiusRange = view.add(SignalUpdateOp({
+      renderRangeY = view.add(SignalUpdateOp({
         'update': coordSpec.radiusRangeUpdater,
-        'initialValue': radiusRange,
+        'initialValue': renderRangeY,
         'signal': signal,
       }));
     }
@@ -199,8 +200,8 @@ void parse<D>(
       'dimCount': coordSpec.dimCount ?? 2,
       'dimFill': coordSpec.dimFill ?? 0.5,
       'transposed': coordSpec.transposed ?? false,
-      'renderRangeX': angleRange,
-      'renderRangeY': radiusRange,
+      'renderRangeX': renderRangeX,
+      'renderRangeY': renderRangeY,
       'startAngle': coordSpec.startAngle ?? (-pi / 2),
       'endAngle': coordSpec.endAngle ?? (3 * pi / 2),
       'startRadius': coordSpec.startRadius ?? 0.0,
@@ -215,25 +216,10 @@ void parse<D>(
   final accessors = <String, Accessor<D, dynamic>>{};
   final variableSpecs = spec.variables;
   final scaleSpecs = <String, Scale>{};
-  late Operator<int> tickCountSpec;
   for (var field in variableSpecs.keys) {
     final accessor = variableSpecs[field]!.accessor;
     final scaleSpec = variableSpecs[field]!.scale;
     accessors[field] = accessor;
-
-    if (scaleSpec != null) {
-      Operator<int> tickCount = view.add(Value<int>(scaleSpec.tickCount ?? 5));
-      // final foo = tickCountSpecs[field];
-      if (scaleSpec.tickCountUpdater != null) {
-        tickCount = view.add(RangeUpdateOp({
-          'update': scaleSpec.tickCountUpdater,
-          'initialValue': tickCount,
-          'range': horizontalRange,
-        }));
-      }
-
-      tickCountSpec = tickCount;
-    }
 
     if (accessor is Accessor<D, String>) {
       scaleSpecs[field] = scaleSpec ?? OrdinalScale();
@@ -299,7 +285,6 @@ void parse<D>(
   final scales = view.add(ScaleConvOp({
     'tuples': tuples,
     'specs': scaleSpecs,
-    'tickCount': tickCountSpec,
   }));
 
   final scaleds = view.add(ScaleOp({
@@ -529,10 +514,12 @@ void parse<D>(
       final variable =
           axisSpec.variable ?? firstVariables![dim == Dim.x ? 0 : 1];
 
+      final range = dim == Dim.x ? renderRangeX : renderRangeY;
+
       final ticks = view.add(TickInfoOp({
         'variable': variable,
         'scales': scales,
-        'tickLine': axisSpec.tickLine,
+        'range': range,
         'tickLineMapper': axisSpec.tickLineMapper,
         'label': axisSpec.label,
         'labelMapper': axisSpec.labelMapper,

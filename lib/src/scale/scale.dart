@@ -7,7 +7,6 @@ import 'package:flutter/foundation.dart';
 import 'package:graphic/src/common/converter.dart';
 import 'package:graphic/src/dataflow/tuple.dart';
 import 'package:graphic/src/variable/variable.dart';
-import 'package:graphic/src/interaction/range.dart';
 
 import 'discrete.dart';
 import 'continuous.dart';
@@ -38,9 +37,7 @@ abstract class Scale<V, SV extends num> {
     this.formatter,
     this.ticks,
     this.tickCount,
-    this.tickCountUpdater,
-  })  : assert(isSingle([ticks, tickCount], allowNone: true)),
-        assert(isSingle([ticks, tickCountUpdater], allowNone: true));
+  }) : assert(isSingle([ticks, tickCount], allowNone: true));
 
   /// Title of the variable this scale corresponds to.
   ///
@@ -65,9 +62,6 @@ abstract class Scale<V, SV extends num> {
   /// If null, a default 5 will be set for [ContinuousScale] and [DiscreteScale]
   /// will show all ticks.
   int? tickCount;
-
-  /// Signal updater of [tickCount].
-  RangeUpdater<int>? tickCountUpdater;
 
   @override
   bool operator ==(Object other) =>
@@ -145,21 +139,17 @@ class ScaleConvOp extends Operator<Map<String, ScaleConv>> {
   Map<String, ScaleConv> evaluate() {
     final tuples = params['tuples'] as List<Tuple>;
     final specs = params['specs'] as Map<String, Scale>;
-    final tickCount = params['tickCount'] as int;
 
     final rst = <String, ScaleConv>{};
     for (var name in specs.keys) {
       if (specs[name] is OrdinalScale) {
         final spec = specs[name] as OrdinalScale;
-        spec.tickCount = tickCount;
         rst[name] = OrdinalScaleConv(spec, tuples, name);
       } else if (specs[name] is LinearScale) {
         final spec = specs[name] as LinearScale;
-        spec.tickCount = tickCount;
         rst[name] = LinearScaleConv(spec, tuples, name);
       } else if (specs[name] is TimeScale) {
         final spec = specs[name] as TimeScale;
-        spec.tickCount = tickCount;
         rst[name] = TimeScaleConv(spec, tuples, name);
       }
     }

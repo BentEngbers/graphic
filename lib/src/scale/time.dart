@@ -18,7 +18,6 @@ class TimeScale extends ContinuousScale<DateTime> {
     String? Function(DateTime)? formatter,
     List<DateTime>? ticks,
     int? tickCount,
-    RangeUpdater<int>? tickCountUpdater,
   }) : super(
           min: min,
           max: max,
@@ -28,7 +27,6 @@ class TimeScale extends ContinuousScale<DateTime> {
           formatter: formatter,
           ticks: ticks,
           tickCount: tickCount,
-          tickCountUpdater: tickCountUpdater,
         );
 
   @override
