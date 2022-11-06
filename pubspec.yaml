@@ -4,8 +4,8 @@ version: 0.10.6
 homepage: https://github.com/entronad/graphic
 
 environment:
-  sdk: '>=2.13.0 <3.0.0'
-  flutter: '>=2.6.0'
+  sdk: ">=2.13.0 <3.0.0"
+  flutter: ">=2.6.0"
 
 dependencies:
   collection: ^1.15.0
@@ -17,3 +17,5 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_lints: ^2.0.1
+  dart_code_metrics: ^5.0.0

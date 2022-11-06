@@ -1,7 +1,7 @@
 import 'dart:math';
 
-E? singleIntersection<E>(Iterable<E>? a, Iterable<E>? b) {
-  if (a == null || b == null || a.isEmpty || b.isEmpty) {
+E? singleIntersection<E>(Iterable<E>? a, Iterable<E> b) {
+  if (a == null || a.isEmpty || b.isEmpty) {
     return null;
   }
 
