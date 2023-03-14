@@ -32,8 +32,8 @@ EventUpdater<List<double>> _getRangeUpdate(
             return [pre.first + delta, pre.last + delta];
           } else {
             // Scaling.
-            double getScaleDim(ScaleUpdateDetails updateDetails) => isHorizontal 
-                ? updateDetails.horizontalScale 
+            double getScaleDim(ScaleUpdateDetails updateDetails) => isHorizontal
+                ? updateDetails.horizontalScale
                 : updateDetails.verticalScale;
 
             final preScale = getScaleDim(gesture.preScaleDetail!);
@@ -58,9 +58,12 @@ EventUpdater<List<double>> _getRangeUpdate(
           } else {
             double mousePos;
             if (isHorizontal) {
-              mousePos = (gesture.localPosition.dx - 39.5) / (gesture.chartSize.width - 51);
+              mousePos = (gesture.localPosition.dx - 39.5) /
+                  (gesture.chartSize.width - 51);
             } else {
-              mousePos = 1 - (gesture.localPosition.dy - 5) / (gesture.chartSize.height - 25);
+              mousePos = 1 -
+                  (gesture.localPosition.dy - 5) /
+                      (gesture.chartSize.height - 25);
             }
             mousePos = (mousePos - pre.first) / (pre.last - pre.first);
             return [
